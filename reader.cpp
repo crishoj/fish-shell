@@ -3560,11 +3560,9 @@ const wchar_t *reader_readline(void)
                  */
                 if (data->buff_pos > 0)
                 {
-                    wchar_t tmp = data->command_line[data->buff_pos];
-                    data->command_line[data->buff_pos] = data->command_line[data->buff_pos-1];
-                    data->command_line[data->buff_pos-1] = tmp;
-                    data->buff_pos++;
-                    reader_repaint();
+                    wcstring local_cmd = data->command_line;
+                    std::swap(local_cmd.at(data->buff_pos), local_cmd.at(data->buff_pos-1));
+                    set_command_line_and_position(local_cmd, data->buff_pos + 1);
                 }
                 break;
             }
